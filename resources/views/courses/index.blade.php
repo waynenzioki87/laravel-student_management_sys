@@ -15,6 +15,10 @@
     <div class="card-body">
         <div 
 class="table-responsive">
+
+         @if(session('success'))
+         <p style="color:green">{{session('success')}}</p>
+         @endif
             <table class="table table-hover align-middle">
    <thead>
        <tr>

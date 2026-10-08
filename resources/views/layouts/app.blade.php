@@ -98,7 +98,7 @@
                             @php
                                 $menuItems = [
                                     ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'bi-grid-1x2'],
-                                    ['route' => 'students', 'label' => 'Students', 'icon' => 'bi-people'],
+                                    ['route' => 'students.index','label' => 'Students', 'icon' => 'bi-people'],
                                     ['route' => 'courses.index', 'label' => 'Courses', 'icon' => 'bi-book'],
                                     ['route' => 'fees', 'label' => 'Fees', 'icon' => 'bi-currency-dollar'],
                                     ['route' => 'payments', 'label' => 'Payments', 'icon' => 'bi-credit-card'],
