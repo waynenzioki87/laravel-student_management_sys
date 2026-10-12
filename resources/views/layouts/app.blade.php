@@ -29,6 +29,22 @@
                 min-height: calc(100vh - 72px);
             }
 
+            .sidebar-brand {
+                color: #111827;
+                text-decoration: none;
+            }
+
+            .sidebar-brand:hover {
+                color: #111827;
+            }
+
+            .sidebar-brand-icon {
+                width: 44px;
+                height: 44px;
+                flex-shrink: 0;
+                background: linear-gradient(135deg, #0d6efd 0%, #1f4aa8 100%);
+            }
+
             .sidebar .nav-link {
                 color: #374151;
                 border-radius: 12px;
@@ -41,6 +57,19 @@
             .sidebar .nav-link.active {
                 background: #eef4ff;
                 color: #0d6efd;
+            }
+
+            .btn.school-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                color: #ffffff;
+            }
+
+            .btn.school-primary:hover,
+            .btn.school-primary:focus-visible {
+                background-color: #0b5ed7;
+                border-color: #0a58ca;
+                color: #ffffff;
             }
 
             .icon-box {
@@ -94,10 +123,21 @@
             <div class="container-fluid px-0">
                 <div class="row g-0">
                     <aside class="sidebar col-lg-2 px-3 py-4">
+                        <a class="sidebar-brand d-flex align-items-center gap-2 mb-4" href="{{ route('dashboard') }}" aria-label="Student Management System home">
+                            <span class="sidebar-brand-icon d-inline-flex align-items-center justify-content-center rounded-3 text-white shadow-sm">
+                                <i class="bi bi-mortarboard-fill fs-4" aria-hidden="true"></i>
+                            </span>
+                            <span class="fw-bold lh-sm">
+                                <span class="d-block">Student</span>
+                                <span class="d-block text-primary">Management</span>
+                            </span>
+                        </a>
+
                         <ul class="nav flex-column gap-2">
                             @php
                                 $menuItems = [
                                     ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'bi-grid-1x2'],
+                                    ['route' => 'enrollment.index', 'label' => 'Enrollment', 'icon' => 'bi-grid-1x2'],
                                     ['route' => 'students.index','label' => 'Students', 'icon' => 'bi-people'],
                                     ['route' => 'courses.index', 'label' => 'Courses', 'icon' => 'bi-book'],
                                     ['route' => 'fees', 'label' => 'Fees', 'icon' => 'bi-currency-dollar'],

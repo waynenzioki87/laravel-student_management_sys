@@ -49,7 +49,7 @@
                                     {{ $student->gender ?? '-' }}
                                 </td>
                                 <td>
-                                    {{ $student->phone ?? '-' }}
+                                    {{ $student->phone_no ?? '-' }}
                                 </td>
                                 <td>
                                     {{ $student->email ?? '-' }}

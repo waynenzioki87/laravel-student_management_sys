@@ -101,10 +101,10 @@
                             Phone
                         </label>
                         <input type="text"
-                               name="phone"
-                               value="{{ old('phone') }}"
-                               class="form-control @error('phone') is-invalid @enderror">
-                        @error('phone')
+                               name="phone_no"
+                               value="{{ old('phone_no') }}"
+                               class="form-control @error('phone_no') is-invalid @enderror">
+                        @error('phone_no')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>

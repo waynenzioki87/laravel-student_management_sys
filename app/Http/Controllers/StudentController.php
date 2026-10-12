@@ -12,10 +12,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
         $students = Student::latest()->paginate(10);
-        
-        return view ('students.index', compact('students'));
+
+        return view('students.index', compact('students'));
     }
 
     /**
@@ -31,40 +30,68 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $validatedData = $request->validate([
+            'student_number' => ['required', 'string', 'max:50', 'unique:students,student_number'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'gender' => ['nullable', 'string', 'max:100'],
+            'date_of_birth' => ['nullable', 'date'],
+            'phone_no' => ['required', 'string', 'max:20'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'status' => ['required', 'in:active,inactive'],
+        ]);
+
+        Student::create($validatedData);
+
+        return redirect()->route('students.index')->with('success', 'Student created successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Student $student)
     {
-        //
+        return view('students.show', compact('student'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Student $student)
     {
-        //
+        return view('students.edit', compact('student'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Student $student)
     {
-        //
+        $validatedData = $request->validate([
+            'student_number' => ['required', 'string', 'max:50', 'unique:students,student_number,' . $student->id],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'gender' => ['nullable', 'string', 'max:100'],
+            'date_of_birth' => ['nullable', 'date'],
+            'phone_no' => ['required', 'string', 'max:20'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'status' => ['required', 'in:active,inactive'],
+        ]);
+
+        $student->update($validatedData);
+
+        return redirect()->route('students.index')->with('success', 'Student updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Student $student)
     {
-        //
-        
+        $student->delete();
 
+        return redirect()->route('students.index')->with('success', 'Student deleted successfully');
     }
 }
