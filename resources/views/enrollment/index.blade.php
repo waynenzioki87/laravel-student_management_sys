@@ -12,6 +12,12 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+    @if($students->isEmpty())
+        <div class="alert alert-warning">
+            Add a student before creating an enrollment.
+            <a href="{{ route('students.create') }}" class="alert-link">Create a student</a>
+        </div>
+    @endif
 
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-header bg-white border-0 pt-4">
@@ -53,37 +59,23 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Semester</label>
-                        <select name="semester_id" class="form-select @error('semester_id') is-invalid @enderror">
-                            <option value="">Select Semester</option>
-                            @foreach($semesters as $semester)
-                                <option value="{{ $semester->id }}" {{ old('semester_id') == $semester->id ? 'selected' : '' }}>
-                                    {{ $semester->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('semester_id')
+                        <input type="text" name="semester" value="{{ old('semester') }}" class="form-control @error('semester') is-invalid @enderror" placeholder="e.g. Semester 1">
+                        @error('semester')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Academic Year</label>
-                        <select name="academic_year__id" class="form-select @error('academic_year__id') is-invalid @enderror">
-                            <option value="">Select Academic Year</option>
-                            @foreach($academicYears as $year)
-                                <option value="{{ $year->id }}" {{ old('academic_year__id') == $year->id ? 'selected' : '' }}>
-                                    {{ $year->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('academic_year__id')
+                        <input type="text" name="academic_year" value="{{ old('academic_year') }}" class="form-control @error('academic_year') is-invalid @enderror" placeholder="e.g. 2026-2027">
+                        @error('academic_year')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn school-primary">
+                    <button type="submit" class="btn school-primary" {{ $students->isEmpty() || $courses->isEmpty() ? 'disabled' : '' }}>
                         <i class="bi bi-check-lg me-1"></i>
                         Save Enrollment
                     </button>

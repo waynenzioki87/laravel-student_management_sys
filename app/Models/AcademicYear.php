@@ -16,7 +16,7 @@ class AcademicYear extends Model
 
     public function enrollments(): HasMany
     {
-        return $this->hasMany(Enrollment::class, 'academic_year__id');
+        return $this->hasMany(Enrollment::class);
     }
 
     public function feeStructures(): HasMany

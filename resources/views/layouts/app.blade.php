@@ -101,8 +101,8 @@
 
                         <div class="dropdown">
                             <button class="btn btn-link text-white dropdown-toggle d-flex align-items-center gap-2 p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white text-primary fw-bold" style="width: 36px; height: 36px;">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
-                                <span class="fw-medium">{{ Auth::user()->name }}</span>
+                                <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white text-primary fw-bold" style="width: 36px; height: 36px;">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                                <span class="fw-medium">{{ auth()->user()->name }}</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
                                 <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="bi bi-person me-2"></i>Profile</a></li>
@@ -137,7 +137,7 @@
                             @php
                                 $menuItems = [
                                     ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'bi-grid-1x2'],
-                                    ['route' => 'enrollment.index', 'label' => 'Enrollment', 'icon' => 'bi-grid-1x2'],
+                                    ['route' => 'enrollment', 'label' => 'Enrollment', 'icon' => 'bi-grid-1x2'],
                                     ['route' => 'students.index','label' => 'Students', 'icon' => 'bi-people'],
                                     ['route' => 'courses.index', 'label' => 'Courses', 'icon' => 'bi-book'],
                                     ['route' => 'fees', 'label' => 'Fees', 'icon' => 'bi-currency-dollar'],

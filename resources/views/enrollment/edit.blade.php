@@ -46,30 +46,16 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Semester</label>
-                        <select name="semester_id" class="form-select @error('semester_id') is-invalid @enderror">
-                            <option value="">Select Semester</option>
-                            @foreach($semesters as $semester)
-                                <option value="{{ $semester->id }}" {{ old('semester_id', $enrollment->semester_id) == $semester->id ? 'selected' : '' }}>
-                                    {{ $semester->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('semester_id')
+                        <input type="text" name="semester" value="{{ old('semester', $enrollment->semester->name) }}" class="form-control @error('semester') is-invalid @enderror">
+                        @error('semester')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Academic Year</label>
-                        <select name="academic_year__id" class="form-select @error('academic_year__id') is-invalid @enderror">
-                            <option value="">Select Academic Year</option>
-                            @foreach($academicYears as $year)
-                                <option value="{{ $year->id }}" {{ old('academic_year__id', $enrollment->academic_year__id) == $year->id ? 'selected' : '' }}>
-                                    {{ $year->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('academic_year__id')
+                        <input type="text" name="academic_year" value="{{ old('academic_year', $enrollment->academicYear->name) }}" class="form-control @error('academic_year') is-invalid @enderror">
+                        @error('academic_year')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

@@ -14,7 +14,7 @@ class Enrollment extends Model
         'student_id',
         'course_id',
         'semester_id',
-        'academic_year__id',
+        'academic_year_id',
     ];
 
     public function student(): BelongsTo
@@ -34,6 +34,6 @@ class Enrollment extends Model
 
     public function academicYear(): BelongsTo
     {
-        return $this->belongsTo(AcademicYear::class, 'academic_year__id');
+        return $this->belongsTo(AcademicYear::class);
     }
 }

@@ -8,7 +8,6 @@ use App\Models\Enrollment;
 use App\Models\Semester;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class EnrollmentController extends Controller
 {
@@ -53,28 +52,32 @@ class EnrollmentController extends Controller
         $validated = $request->validate([
             'student_id' => ['required', 'exists:students,id'],
             'course_id' => ['required', 'exists:courses,id'],
-            'semester_id' => ['required', 'exists:semesters,id'],
-            'academic_year__id' => ['required', 'exists:academic_years,id'],
+            'semester' => ['required', 'string', 'max:255'],
+            'academic_year' => ['required', 'string', 'max:255'],
         ]);
 
-        $validated['academic_year__id'] = $request->input('academic_year__id');
+        $semester = Semester::where('name', $validated['semester'])->first();
+        $academicYear = AcademicYear::where('name', $validated['academic_year'])->first();
 
-        $exists = Enrollment::where('student_id', $validated['student_id'])
+        if ($semester && $academicYear && Enrollment::where('student_id', $validated['student_id'])
             ->where('course_id', $validated['course_id'])
-            ->where('semester_id', $validated['semester_id'])
-            ->where('academic_year__id', $validated['academic_year__id'])
-            ->when($request->route('enrollment') !== null, function ($query) use ($request) {
-                $query->whereKeyNot($request->route('enrollment')->id);
-            })
-            ->exists();
-
-        if ($exists) {
+            ->where('semester_id', $semester->id)
+            ->where('academic_year_id', $academicYear->id)
+            ->exists()) {
             return back()->withErrors([
                 'student_id' => 'This student is already enrolled in this course for the selected semester and academic year.',
             ])->withInput();
         }
 
-        Enrollment::create($validated);
+        $semester = Semester::firstOrCreate(['name' => $validated['semester']]);
+        $academicYear = AcademicYear::firstOrCreate(['name' => $validated['academic_year']]);
+
+        Enrollment::create([
+            'student_id' => $validated['student_id'],
+            'course_id' => $validated['course_id'],
+            'semester_id' => $semester->id,
+            'academic_year_id' => $academicYear->id,
+        ]);
 
         return redirect()->route('enrollment')->with('success', 'Student enrolled successfully.');
     }
@@ -84,24 +87,35 @@ class EnrollmentController extends Controller
         $validated = $request->validate([
             'student_id' => ['required', 'exists:students,id'],
             'course_id' => ['required', 'exists:courses,id'],
-            'semester_id' => ['required', 'exists:semesters,id'],
-            'academic_year__id' => ['required', 'exists:academic_years,id'],
+            'semester' => ['required', 'string', 'max:255'],
+            'academic_year' => ['required', 'string', 'max:255'],
         ]);
 
-        $exists = Enrollment::where('student_id', $validated['student_id'])
+        $semester = Semester::where('name', $validated['semester'])->first();
+        $academicYear = AcademicYear::where('name', $validated['academic_year'])->first();
+
+        $duplicate = $semester && $academicYear && Enrollment::where('student_id', $validated['student_id'])
             ->where('course_id', $validated['course_id'])
-            ->where('semester_id', $validated['semester_id'])
-            ->where('academic_year__id', $validated['academic_year__id'])
-            ->whereKeyNot($enrollment->id)
+            ->where('semester_id', $semester->id)
+            ->where('academic_year_id', $academicYear->id)
+            ->where('id', '!=', $enrollment->id)
             ->exists();
 
-        if ($exists) {
+        if ($duplicate) {
             return back()->withErrors([
                 'student_id' => 'This student is already enrolled in this course for the selected semester and academic year.',
             ])->withInput();
         }
 
-        $enrollment->update($validated);
+        $semester = Semester::firstOrCreate(['name' => $validated['semester']]);
+        $academicYear = AcademicYear::firstOrCreate(['name' => $validated['academic_year']]);
+
+        $enrollment->update([
+            'student_id' => $validated['student_id'],
+            'course_id' => $validated['course_id'],
+            'semester_id' => $semester->id,
+            'academic_year_id' => $academicYear->id,
+        ]);
 
         return redirect()->route('enrollment')->with('success', 'Enrollment updated successfully.');
     }
